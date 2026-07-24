@@ -13,7 +13,7 @@ function deepMerge(dst, src) {
 
 	for (const key of Object.keys(src)) {
 		if (typeof src[key] === 'object') {
-			if (!Object.hasOwn(dst, key)) {
+			if (typeof dst[key] !== 'object' || dst[key] === null) {
 				dst[key] = {};
 			}
 			deepMerge(dst[key], src[key]);

@@ -14,14 +14,17 @@
             "beastform": "Forma bestial"
         },
         "ActiveEffect": {
-            "beastform": "Forma bestial"
+            "beastform": "Forma bestial",
+            "base": "Estándar",
+            "horde": "Horda"
         },
         "Actor": {
             "character": "Personaje",
             "companion": "Compañero",
             "adversary": "Adversario",
             "environment": "Entorno",
-            "party": "Grupo"
+            "party": "Grupo",
+            "npc": "PNJ"
         }
     },
     "CONTROLS": {
@@ -40,7 +43,8 @@
                 },
                 "damage": {
                     "name": "Daño",
-                    "tooltip": "Daño directo sin una tirada."
+                    "tooltip": "Daño directo sin una tirada.",
+                    "critical": "Daño (Crítico)"
                 },
                 "effect": {
                     "name": "Genérico",
@@ -58,8 +62,7 @@
                     "name": "Invocar",
                     "tooltip": "Crear tokens en la escena.",
                     "error": "No tienes permiso para invocar tokens o no hay escena activa.",
-                    "invalidDrop": "Solo puedes arrastrar entidades de tipo Actor para invocarlas.",
-                    "chatMessageHeaderTitle": "Invocando"
+                    "invalidDrop": "Solo puedes arrastrar entidades de tipo Actor para invocarlas."
                 },
                 "countdown": {
                     "name": "Cuenta atrás",
@@ -72,19 +75,33 @@
                     "transformActorMissing": "El actor asignado para transformarse no existe. Probablemente ha sido borrado",
                     "canvasError": "No hay escena activa.",
                     "prototypeError": "Solo puedes usar una acción de transformación desde un token",
-                    "actorLinkError": "No puedes transformar un token con Vincular datos del personaje activado"
+                    "actorLinkError": "No puedes transformar un token con Vincular datos del personaje activado",
+                    "linkedSelectedError": "Para transformar un actor vinculado, o bien solo puede haber un único token suyo en la escena, o debes seleccionar solo uno de ellos con clic izquierdo."
                 }
             },
             "Config": {
                 "beastform": {
-                    "exact": "Máximo rango de forma bestial",
-                    "exactHint": "Se usará el rango del personaje si está vacío",
-                    "label": "Forma bestial"
+                    "exact": {
+                        "label": "Rango máximo de Forma bestial",
+                        "hint": "Se usará el rango del personaje si está vacío"
+                    },
+                    "modifications": {
+                        "traitBonuses": {
+                            "label": {
+                                "single": "Bonificador de atributo",
+                                "plural": "Bonificadores de atributo"
+                            },
+                            "hint": "Elige los bonificadores que aplicas a atributos elegidos libremente al transformarte",
+                            "bonus": "Cantidad de bonificación"
+                        }
+                    }
                 },
                 "displayInChat": "Mostrar en el chat",
                 "damage": {
                     "multiplier": "Multiplicador",
-                    "flatMultiplier": "Multiplicador plano"
+                    "flatMultiplier": "Multiplicador plano",
+                    "addResource": "Añadir recurso",
+                    "markResources": "Marcar recursos"
                 },
                 "general": {
                     "customFormula": "Fórmula personalizada",
@@ -95,7 +112,16 @@
                     "startCountdown": "Empezar cuenta atrás"
                 },
                 "deleteTriggerTitle": "Borrar activador",
-                "deleteTriggerContent": "¿Está seguro de que desea eliminar el activador {trigger}?"
+                "deleteTriggerContent": "¿Está seguro de que desea eliminar el activador {trigger}?",
+                "area": {
+                    "sectionTitle": "Áreas",
+                    "shape": "Forma",
+                    "size": "Tamaño",
+                    "hasHole": "Agujero de área"
+                },
+                "advantageState": "Estado de ventaja",
+                "damageOnSave": "Daño al salvar",
+                "useDefaultItemValues": "Usar los valores del objeto por defecto"
             },
             "RollField": {
                 "diceRolling": {
@@ -107,7 +133,6 @@
                 }
             },
             "Settings": {
-                "attackBonus": "Bonificador del ataque",
                 "attackName": "Nombre del ataque",
                 "includeBase": {
                     "label": "Incluir daño del objeto"
@@ -136,14 +161,31 @@
                     "actorIsMissing": "El actor enlazado no existe. Deberías eliminar este enlace.",
                     "clearHitPoints": "Limpiar puntos de golpe",
                     "clearStress": "Limpiar estrés"
+                },
+                "attackModifier": "Modificador de ataque",
+                "groupAttack": {
+                    "label": "Ataque en grupo"
                 }
+            },
+            "Reload": {
+                "checkReload": "Comprobar recarga",
+                "reloadRequired": "¡Recarga necesaria!",
+                "notRolled": "Sin tirar",
+                "checkFailed": "Comprobación fallida",
+                "checkPassed": "Comprobación superada",
+                "rerollConfirmationTitle": "Repetir comprobación de recarga",
+                "rerollConfirmationText": "¿Seguro que quieres repetir la comprobación de recarga?"
             }
         },
         "ACTIVEEFFECT": {
             "Config": {
                 "rangeDependence": {
                     "title": "Dependencia de distancia"
-                }
+                },
+                "stacking": {
+                    "title": "Acumulación"
+                },
+                "targetDispositions": "Disposiciones afectadas"
             },
             "RangeDependance": {
                 "hint": "Configuración de una distancia opcional a la que este efecto debería activarse",
@@ -226,7 +268,10 @@
                     }
                 },
                 "hordeDamage": "Daño de horda",
-                "horderHp": "Horda/PG"
+                "horderHp": "Horda/PG",
+                "adversaryReactionRoll": {
+                    "headerTitle": "Tirada de Reacción del Adversario"
+                }
             },
             "Character": {
                 "advantageSources": {
@@ -298,7 +343,9 @@
                 "resetCharacter": "Reiniciar personaje",
                 "viewParty": "Ver grupo",
                 "resetCharacterConfirmationTitle": "Reiniciar personaje",
-                "resetCharacterConfirmationContent": "Estás restableciendo todos los datos del personaje, excepto el nombre y la imagen. ¿Estás seguro?"
+                "resetCharacterConfirmationContent": "Estás restableciendo todos los datos del personaje, excepto el nombre y la imagen. ¿Estás seguro?",
+                "defaultAdvantageDice": "Dados de ventaja por defecto",
+                "defaultDisadvantageDice": "Dados de desventaja por defecto"
             },
             "Companion": {
                 "FIELDS": {
@@ -350,6 +397,32 @@
                     }
                 },
                 "newAdversary": "Nuevo adversario"
+            },
+            "Base": {
+                "CannotAddType": "No se pueden añadir objetos de tipo {itemType} a actores de tipo {actorType}."
+            },
+            "NPC": {
+                "FIELDS": {
+                    "motives": {
+                        "label": "Motivaciones"
+                    }
+                }
+            },
+            "Party": {
+                "Subtitle": {
+                    "character": "{ancestry} {community} | {class} {subclass}",
+                    "companion": "Compañero de {partner}"
+                },
+                "RemoveConfirmation": {
+                    "title": "Eliminar miembro {name}",
+                    "text": "¿Seguro que quieres eliminar a {name} del grupo?"
+                },
+                "Thresholds": {
+                    "minor": "MEN",
+                    "major": "MAY",
+                    "severe": "SEV"
+                },
+                "triggerRestContent": "Esto abrirá un diálogo para que los jugadores hagan sus movimientos de descanso. ¿Estás seguro?"
             }
         },
         "APPLICATIONS": {
@@ -399,7 +472,11 @@
                 "giveSpotlight": "Dar el Foco",
                 "requestingSpotlight": "Pidiendo el Foco",
                 "requestSpotlight": "Pedir el foco",
-                "openCountdowns": "Contadores"
+                "openCountdowns": "Contadores",
+                "adversaryCategories": {
+                    "friendly": "Aliados",
+                    "adversaries": "Adversarios"
+                }
             },
             "ContextMenu": {
                 "disableEffect": "Deshabilitar Efecto",
@@ -410,7 +487,6 @@
                 "toVault": "Mandar al depósito",
                 "unequip": "Desequipar",
                 "useItem": "Usar Objeto",
-                "cancelBeastform": "Cancelar Forma Bestial",
                 "recall": "Recuperar"
             },
             "Countdown": {
@@ -424,9 +500,6 @@
                             "progress": {
                                 "current": {
                                     "label": "Actual"
-                                },
-                                "max": {
-                                    "label": "Máx"
                                 },
                                 "type": {
                                     "label": {
@@ -475,7 +548,6 @@
                 "text": "¿Seguro que quieres borrar {name}?"
             },
             "DamageReduction": {
-                "armorMarks": "Marcas de armadura",
                 "armorWithStress": "Gasta 1 Estrés para usar una marca extra",
                 "thresholdImmunities": "Inmunidades de Límite",
                 "stress": "Estrés",
@@ -483,7 +555,8 @@
                 "title": "Reducción del daño",
                 "unncessaryStress": "No necesitas gastar Estrés",
                 "usedMarks": "Marcas usadas",
-                "reduceSeverity": "Severidad Reducida en {nr}"
+                "reduceSeverity": "Severidad Reducida en {nr}",
+                "maxUseableArmor": "Espacios de armadura utilizables"
             },
             "DeathMove": {
                 "selectMove": "Seleccionar movimiento",
@@ -675,12 +748,6 @@
             "ReactionRoll": {
                 "title": "Tirada de Reacción: {trait}"
             },
-            "RerollDialog": {
-                "title": "Volver a tirar",
-                "deselectDiceNotification": "Deselecciona primero uno de los dados seleccionados",
-                "acceptCurrentRolls": "Aceptar Tiradas Actuales",
-                "damageTitle": "Volver a tirar los dados de daño"
-            },
             "ResourceDice": {
                 "title": "Recurso {name}",
                 "rerollDice": "Volver a tirar"
@@ -696,11 +763,6 @@
                 "removeCountdownTitle": "Eliminar contador",
                 "removeCountdownText": "¿Seguro que quieres borrar el contador: {name}?",
                 "current": "Actual",
-                "max": "Máx",
-                "currentCountdownValue": "Actual: {value}",
-                "currentCountdownMax": "Máx: {value}",
-                "category": "Categoría",
-                "type": "Tipo",
                 "defaultOwnershipTooltip": "Los permisos por defecto de los contadores para los jugadores",
                 "hideNewCountdowns": "Ocultar nuevos contadores",
                 "start": "Valor inicial",
@@ -713,7 +775,8 @@
             },
             "DaggerheartMenu": {
                 "title": "Herramientas de DJ",
-                "refreshFeatures": "Refrescar Rasgos"
+                "refreshFeatures": "Refrescar Rasgos",
+                "fallingAndCollision": "Daño por caída y colisión"
             },
             "ImageSelect": {
                 "title": "Seleccionar imagen",
@@ -730,13 +793,38 @@
                 "damageNotRolled": "El daño aún no se ha tirado",
                 "insufficientHope": "El personaje iniciante no tiene suficiente esperanza",
                 "createTagTeam": "Crear tirada de relevos",
-                "chatMessageRollTitle": "Tirada"
+                "chatMessageRollTitle": "Tirada",
+                "FIELDS": {
+                    "initiator": {
+                        "memberId": {
+                            "label": "Personaje iniciante"
+                        },
+                        "cost": {
+                            "label": "Coste de Esperanza"
+                        }
+                    }
+                },
+                "selectParticipants": "Selecciona a los dos participantes",
+                "startTagTeamRoll": "Iniciar tirada de relevos",
+                "openDialogForAll": "Abrir diálogo para todos",
+                "rollType": "Tipo de tirada",
+                "makeYourRoll": "Haz tu tirada",
+                "cancelTagTeamRoll": "Cancelar tirada de relevos",
+                "finishTagTeamRoll": "Finalizar tirada de relevos",
+                "cancelConfirmTitle": "Cancelar tirada de relevos",
+                "cancelConfirmText": "¿Seguro que quieres cancelar la tirada de relevos? Esto también la cerrará para el resto de jugadores.",
+                "hints": {
+                    "completeRolls": "Configura y completa las tiradas de los personajes",
+                    "selectRoll": "Selecciona qué valor de tirada se usará para la tirada de relevos"
+                }
             },
             "ItemTransfer": {
                 "transfer": "Transferir"
             },
             "TokenConfig": {
-                "actorSizeUsed": "Tamaño del actor especificado, determinando las dimensiones"
+                "actorSizeUsed": "Tamaño del actor especificado, determinando las dimensiones",
+                "tokenSize": "Tamaño del token",
+                "sizeCategory": "Categoría de tamaño"
             },
             "CharacterReset": {
                 "title": "Restablecer personaje",
@@ -756,6 +844,32 @@
                 "enableSource": "Habilitar origen",
                 "disableSource": "Deshabilitar origen",
                 "worldCompendiums": "Compendios del mundo"
+            },
+            "CreateItemDialog": {
+                "createItem": "Crear objeto",
+                "browseCompendium": "Explorar compendio"
+            },
+            "PendingReactionsDialog": {
+                "title": "Se encontraron tiradas de reacción pendientes",
+                "unfinishedRolls": "Algunos tokens no han terminado sus tiradas de reacción.",
+                "warning": "Las tiradas de reacción sin terminar se considerarán fallidas.",
+                "confirmation": "¿Seguro que quieres continuar?"
+            },
+            "GroupRollSelect": {
+                "cancelConfirmText": "¿Seguro que quieres cancelar la tirada en grupo? Esto también la cerrará para el resto de jugadores.",
+                "cancelConfirmTitle": "Cancelar tirada en grupo",
+                "initializationTitle": "Selección de personajes",
+                "finishGroupRoll": "Finalizar tirada en grupo",
+                "leader": "Líder",
+                "leaderRoll": "Tirada del líder",
+                "members": "Miembros",
+                "openDialogForAll": "Abrir diálogo para todos",
+                "removeRoll": "Eliminar tirada",
+                "resultsHint": "Los resultados aparecerán cuando los personajes tiren",
+                "selectLeaderHint": "Selecciona un personaje para ser el líder",
+                "selectParticipantsHint": "Selecciona todos los personajes que participarán en la tirada",
+                "startGroupRoll": "Iniciar tirada en grupo",
+                "title": "Tirada en grupo"
             }
         },
         "CLASS": {
@@ -765,11 +879,6 @@
             }
         },
         "CONFIG": {
-            "ActionType": {
-                "passive": "Pasiva",
-                "action": "Acción",
-                "reaction": "Reacción"
-            },
             "AdversaryTrait": {
                 "relentless": {
                     "name": "Implacable",
@@ -1092,12 +1201,14 @@
                 }
             },
             "CountdownType": {
-                "spotlight": "Foco",
-                "custom": "Personalizado",
-                "characterAttack": "Ataque de personaje",
-                "actionRoll": "Tirada de acción",
-                "characterSpotlight": "Foco del personaje",
-                "fear": "Miedo"
+                "encounter": {
+                    "label": "Corto plazo",
+                    "shortLabel": "Corto"
+                },
+                "narrative": {
+                    "label": "Largo plazo",
+                    "shortLabel": "Largo"
+                }
             },
             "DamageType": {
                 "physical": {
@@ -1135,16 +1246,20 @@
             },
             "EnvironmentType": {
                 "exploration": {
-                    "label": "Exploración"
+                    "label": "Exploración",
+                    "description": ""
                 },
                 "social": {
-                    "label": "Social"
+                    "label": "Social",
+                    "description": ""
                 },
                 "traversal": {
-                    "label": "Travesía"
+                    "label": "Travesía",
+                    "description": ""
                 },
                 "event": {
-                    "label": "Evento"
+                    "label": "Evento",
+                    "description": ""
                 }
             },
             "Gold": {
@@ -1251,8 +1366,8 @@
                 "cone": "Cono",
                 "emanation": "Emanación",
                 "inFront": "En frente",
-                "rect": "Rectángulo",
-                "ray": "Rayo"
+                "rectangle": "Rectángulo",
+                "line": "Línea"
             },
             "Traits": {
                 "agility": {
@@ -1906,6 +2021,86 @@
                 "higher": {
                     "name": "Tirada más alta"
                 }
+            },
+            "ActiveEffectDuration": {
+                "temporary": "Temporal",
+                "act": "Siguiente Foco",
+                "scene": "Siguiente escena",
+                "shortRest": "Siguiente descanso",
+                "longRest": "Siguiente descanso largo",
+                "session": "Siguiente sesión",
+                "custom": "Personalizado"
+            },
+            "ActionAutomationChoices": {
+                "never": "Nunca",
+                "showDialog": "Mostrar solo diálogo",
+                "always": "Siempre"
+            },
+            "AreaTypes": {
+                "attached": {
+                    "label": "Adjunto al token"
+                },
+                "placed": {
+                    "label": "Colocado en la escena"
+                }
+            },
+            "ArmorInteraction": {
+                "none": {
+                    "label": "Ignora la armadura"
+                },
+                "active": {
+                    "label": "Activo con armadura"
+                },
+                "inactive": {
+                    "label": "Inactivo con armadura"
+                }
+            },
+            "CountdownProgressType": {
+                "actionRoll": "Tirada de acción",
+                "characterAttack": "Ataque de personaje",
+                "characterSpotlight": "Foco del personaje",
+                "custom": "Personalizado",
+                "fear": "Miedo",
+                "spotlight": "Foco"
+            },
+            "fallAndCollision": {
+                "veryClose": {
+                    "label": "Muy cerca",
+                    "chatTitle": "Daño por caída: Muy cerca"
+                },
+                "close": {
+                    "label": "Cerca",
+                    "chatTitle": "Daño por caída: Cerca"
+                },
+                "far": {
+                    "label": "Lejos",
+                    "chatTitle": "Daño por caída: Lejos"
+                },
+                "collision": {
+                    "label": "Colisión",
+                    "chatTitle": "Colisión peligrosa"
+                }
+            },
+            "ReloadChoices": {
+                "off": {
+                    "label": "No usar"
+                },
+                "manual": {
+                    "label": "Manual"
+                },
+                "auto": {
+                    "label": "Automático"
+                }
+            },
+            "SceneRangeMeasurementTypes": {
+                "disable": "Desactivar la medición de distancias de Daggerheart",
+                "default": "Por defecto",
+                "custom": "Personalizado"
+            },
+            "TagTeamRollTypes": {
+                "trait": "Atributo",
+                "ability": "Habilidad",
+                "damageAbility": "Habilidad de daño"
             }
         },
         "EFFECTS": {
@@ -1941,7 +2136,19 @@
             "Attachments": {
                 "attachHint": "Arrastra objetos aquí para adjuntarlos",
                 "transferHint": "Si está marcado este efecto será aplicado a cualquier actor que tenga el Objeto al que pertenece este efecto. El efecto siempre se aplica si este Objeto está adjunto a otro."
-            }
+            },
+            "ChangeTypes": {
+                "armor": {
+                    "newArmorEffect": "Efecto de armadura",
+                    "FIELDS": {
+                        "interaction": {
+                            "label": "Interacción con la armadura",
+                            "hint": "¿Que el personaje lleve armadura suprime este efecto?"
+                        }
+                    }
+                }
+            },
+            "OriginTag": "Origen: {name}"
         },
         "GENERAL": {
             "Action": {
@@ -2127,7 +2334,9 @@
             },
             "Resource": {
                 "single": "Recurso",
-                "plural": "Recursos"
+                "plural": "Recursos",
+                "unloaded": "El arma no está cargada",
+                "loaded": "El arma está cargada"
             },
             "Roll": {
                 "attack": "Tirada de ataque",
@@ -2361,7 +2570,6 @@
             "recovery": "Recuperación",
             "reroll": "Volver a tirar",
             "rerollThing": "Volver a tirar {thing}",
-            "resource": "Recurso",
             "roll": "Tirar",
             "rollAll": "Tirar todo",
             "rollDamage": "Tirar daño",
@@ -2381,7 +2589,6 @@
             "true": "Cierto",
             "type": "Tipo",
             "unarmed": "Desarmado",
-            "unarmedStrike": "Ataque desarmado",
             "unarmored": "Sin armadura",
             "use": "Uso",
             "used": "Usado",
@@ -2443,7 +2650,26 @@
             },
             "initial": "Inicial",
             "preview": "Previsualizar",
-            "thingsAndThing": "{things} y {thing}"
+            "thingsAndThing": "{things} y {thing}",
+            "Ability": {
+                "single": "Habilidad",
+                "plural": "Habilidades"
+            },
+            "Battlepoints": {
+                "full": "Puntos de batalla",
+                "short": "PB"
+            },
+            "effect": "Efecto",
+            "missingX": "Falta {x}",
+            "name": "Nombre",
+            "next": "Siguiente",
+            "optionalThing": "{thing} opcional",
+            "result": {
+                "single": "Resultado",
+                "plural": "Resultados"
+            },
+            "saveSettings": "Guardar ajustes",
+            "searchPlaceholder": "Buscar..."
         },
         "ITEMS": {
             "FIELDS": {
@@ -2483,6 +2709,12 @@
                     "artist": {
                         "label": "Artista"
                     }
+                },
+                "identifier": {
+                    "label": "Identificador"
+                },
+                "gmNotes": {
+                    "label": "Notas del DJ"
                 }
             },
             "Ancestry": {
@@ -2532,6 +2764,9 @@
                         "disabledPlaceholder": "Establecido por tamaño del personaje",
                         "scale": {
                             "label": "Escala de Token"
+                        },
+                        "depth": {
+                            "label": "Profundidad"
                         }
                     },
                     "evolved": {
@@ -2590,8 +2825,7 @@
                 "classFeature": "Rasgo de clase"
             },
             "Consumable": {
-                "consumeOnUse": "Consumir al usar",
-                "destroyOnEmpty": "Destruir al vaciarse"
+                "consumeOnUse": "Consumir al usar"
             },
             "DomainCard": {
                 "type": "Tipo",
@@ -2612,11 +2846,20 @@
             },
             "Weapon": {
                 "weaponType": "Tipo de arma",
-                "primaryWeapon": "Arma principal",
-                "secondaryWeapon": "Arma secundaria"
+                "primaryWeapon": {
+                    "full": "Arma principal",
+                    "short": "Principal"
+                },
+                "secondaryWeapon": {
+                    "full": "Arma secundaria",
+                    "short": "Secundaria"
+                }
             },
             "Community": {
                 "featuresLabel": "Rasgo de comunidad"
+            },
+            "Base": {
+                "addGMNote": "Añadir nota del DJ"
             }
         },
         "SETTINGS": {
@@ -2624,9 +2867,6 @@
                 "FIELDS": {
                     "displayFear": {
                         "label": "Mostrar miedo"
-                    },
-                    "dualityColorScheme": {
-                        "label": "Estilo del Chat"
                     },
                     "showGenericStatusEffects": {
                         "label": "Mostrar Efectos de Estado de Foundry"
@@ -2675,12 +2915,22 @@
                             "encounters": "Encuentros",
                             "never": "Nunca"
                         }
+                    },
+                    "fearPosition": {
+                        "label": "Posición del Miedo"
                     }
                 },
                 "fearDisplay": {
                     "token": "Tokens",
                     "bar": "Barra",
                     "hide": "Ocultar"
+                },
+                "fearPosition": {
+                    "free": "Libre",
+                    "topCenter": "Arriba + Centro",
+                    "bottomCenter": "Abajo + Centro",
+                    "rightTop": "Derecha + Arriba",
+                    "leftBottom": "Izquierda + Abajo"
                 }
             },
             "Automation": {
@@ -2753,10 +3003,6 @@
                         "label": "Mostrar Textos de Desplazamiento de Cambio de Recursos",
                         "hint": "Cuando un personaje es dañado, usa armadura etc., aparecerá brevemente un texto deslizante junto al token para señalarlo."
                     },
-                    "playerCanEditSheet": {
-                        "label": "Los Jugadores Pueden Editar Manualmente la Configuración del Personaje",
-                        "hint": "Los jugadores pueden acceder a la Configuración Manual del Personaje y cambiar sus estadísticas más allá de las reglas."
-                    },
                     "roll": {
                         "roll": {
                             "label": "Tirada",
@@ -2795,6 +3041,14 @@
                     "vulnerableAutomation": {
                         "label": "Automatización de vulnerable",
                         "hint": "Automáticamente aplica la condición Vulnerable cuando un actor llega a su máximo de estrés"
+                    },
+                    "autoExpireActiveEffects": {
+                        "label": "Expirar Efectos Activos automáticamente",
+                        "hint": "Los Efectos Activos con duraciones definidas se eliminarán automáticamente cuando su duración termine"
+                    },
+                    "reload": {
+                        "label": "Comprobación de recarga",
+                        "hint": "Si el sistema debe tirar las comprobaciones de recarga automáticamente o esperar a que se pulse manualmente un botón en el chat"
                     }
                 },
                 "defeated": {
@@ -2846,7 +3100,6 @@
                     }
                 },
                 "currency": {
-                    "enabled": "Habilitar Sobrescrituras",
                     "title": "Sobrescrituras de Moneda",
                     "currencyName": "Nombre de la Moneda",
                     "coinName": "Nombre de la Moneda",
@@ -2855,7 +3108,9 @@
                     "chestName": "Nombre del Cofre",
                     "changeIcon": "Cambiar Icono de Moneda",
                     "iconName": "Nombre del Icono",
-                    "iconNameHint": "Los iconos son de fontawesome"
+                    "iconNameHint": "Los iconos son de fontawesome",
+                    "denomination": "Denominación",
+                    "initialAmount": "Cantidad inicial"
                 },
                 "domains": {
                     "domainsTitle": "Dominios Base",
@@ -2909,10 +3164,8 @@
                     "hint": "Configuración de la regla del sistema para mostrar alcances en Daggerheart"
                 },
                 "appearance": {
-                    "title": "Configuración de Apariencia",
                     "label": "Configuración de Apariencia",
                     "hint": "Modificar el aspecto de varias partes del sistema",
-                    "name": "Configuración de Apariencia",
                     "duality": "Tiradas de Dualidad",
                     "diceSoNice": {
                         "title": "Dice So Nice",
@@ -2930,7 +3183,8 @@
                         "diceAppearance": "Apariencia de los dados",
                         "animations": "Animaciones",
                         "defaultAnimations": "Establecer animaciones por defecto",
-                        "previewAnimation": "Previsualizar animación"
+                        "previewAnimation": "Previsualizar animación",
+                        "muted": "Silenciado"
                     }
                 },
                 "variantRules": {
@@ -2997,7 +3251,26 @@
                     "hideObserverPermissionInChat": {
                         "label": "Ocultar información del chat de los jugadores",
                         "hint": "Información como éxito/fallo en tiradas de ataque contra adversarios se ocultará"
+                    },
+                    "hidePartyStats": {
+                        "label": "Ocultar estadísticas del grupo",
+                        "hint": "Los recursos y estadísticas en la lista de miembros de la ficha de grupo se ocultarán a los siguientes usuarios, incluso si el usuario forma parte del mismo grupo",
+                        "choices": {
+                            "never": "Nunca, mostrar siempre",
+                            "players": "Ocultar a los jugadores",
+                            "always": "Ocultar a todos"
+                        }
                     }
+                }
+            },
+            "Keybindings": {
+                "partySheet": {
+                    "name": "Alternar ficha de grupo",
+                    "hint": "Abrir o cerrar la ficha del grupo activo"
+                },
+                "spotlight": {
+                    "name": "Enfocar combatiente",
+                    "hint": "Mueve el foco a un token señalado o seleccionado que esté presente en un encuentro activo"
                 }
             }
         },
@@ -3068,18 +3341,6 @@
                     "title": "Efectos aplicados",
                     "immunityTo": "Inmunidad: {immunities}"
                 },
-                "groupRoll": {
-                    "title": "Tirada de grupo",
-                    "leader": "Líder",
-                    "partyTeam": "Equipo",
-                    "team": "Equipo",
-                    "selectLeader": "Seleccionar líder",
-                    "selectMember": "Seleccionar miembro",
-                    "rerollTitle": "Volver a tirar",
-                    "rerollContent": "¿Seguro que quieres volver a tirar {trait}?",
-                    "rerollTooltip": "Volver a tirar",
-                    "wholePartySelected": "Todo el grupo está seleccionado"
-                },
                 "markResource": "Marcar {quantity} {resource}",
                 "refreshMessage": {
                     "title": "Rasgo refrescado",
@@ -3088,6 +3349,9 @@
                 "tagTeam": {
                     "title": "Tirada de relevos",
                     "membersTitle": "Miembros"
+                },
+                "saveRoll": {
+                    "reactionRollAllTargets": "Tirada de reacción para todos los objetivos"
                 }
             },
             "Notifications": {
@@ -3153,7 +3417,6 @@
                 "multiclassAlreadyPresent": "Ya tienes una clase y multiclase",
                 "subclassesAlreadyPresent": "Ya tienes una clase y subclase de multiclase",
                 "noDiceSystem": "Tu sistema de dados {system} seleccionado no tiene un dado {faces}",
-                "subclassAlreadyLinked": "{name} ya es una subclase en la clase {class}. Elimínala de allí si quieres que sea una subclase de esta clase.",
                 "noTargetsSelectedOrPerm": "No hay objetivos seleccionados o con permiso de actualización.",
                 "duplicateCharacter": "Este actor ya está registrado en la lista de miembros del grupo.",
                 "onlyCharactersInPartySheet": "Solo puedes arrastrar personajes, compañeros y adversarios a la hoja del grupo.",
@@ -3169,7 +3432,11 @@
                 "tokenActorsMissing": "[{names}] les faltan actores.",
                 "domainTouchRequirement": "Esta carta de dominio requiere {nr} cartas de {domain} equipadas para poder ser utilizada.",
                 "knowTheTide": "Know The Tide obtuvo un token",
-                "lackingItemTransferPermission": "El usuario {user} no tiene permisos para transferir objetos a {target}"
+                "lackingItemTransferPermission": "El usuario {user} no tiene permisos para transferir objetos a {target}",
+                "noTokenTargeted": "No hay ningún token seleccionado como objetivo",
+                "behaviorRegionRequiresGM": "Crear una Región con un Comportamiento adjunto requiere un DJ conectado",
+                "comboDiceOnlyTwoDiceError": "La funcionalidad de dados combinados solo funciona con un único par de dos dados",
+                "reloadRequired": "¡El {weapon} debe recargarse para poder usarse!"
             },
             "Tooltip": {
                 "disableEffect": "Deshabilitar Efecto",
@@ -3188,14 +3455,12 @@
                 "rangeAndTarget": "Alcance y objetivo",
                 "dragApplyEffect": "Arrastra el efecto para aplicarlo a un actor",
                 "appliedEvenIfSuccessful": "Aplicado incluso si la salvación tuvo éxito",
-                "diceIsRerolled": "El dado ha sido tirado de nuevo (x{times})",
                 "pendingSaves": "Tiradas de reacción pendientes",
                 "openSheetSettings": "Abrir ajustes",
                 "compendiumBrowser": "Navegador de compendio",
                 "rulesOn": "Reglas activas",
                 "rulesOff": "Reglas inactivas",
                 "remainingUses": "Usa refresco en {type}",
-                "rightClickExtand": "Click derecho para expandir",
                 "companionPartnerLevelBlock": "El compañero necesita que el personaje asociado suba de nivel.",
                 "configureAttribution": "Configurar Atribución",
                 "deleteItem": "Borrar Ítem",
@@ -3203,11 +3468,13 @@
                 "middleClick": "[Click Central] Mantener vista de tooltip",
                 "tokenSize": "El tamaño del token usado en el lienzo",
                 "previewTokenHelp": "Haz clic izquierdo para colocar, haz clic derecho para cancelar.",
-                "rightClickExtend": "Click derecho para extender"
+                "rightClickExtend": "Click derecho para extender",
+                "edit": "Editar"
             },
             "ChatLog": {
                 "rerollDamage": "Volver a tirar el daño",
-                "assignTagRoll": "Asignar a tirada de relevos"
+                "assignTagRoll": "Asignar a tirada de relevos",
+                "rerollActionRoll": "Repetir acción"
             },
             "Countdowns": {
                 "title": "Contadores",
@@ -3220,7 +3487,6 @@
             "ItemBrowser": {
                 "title": "Navegador de Compendio de Daggerheart",
                 "hint": "Selecciona una Carpeta en la barra lateral para comenzar a navegar por el compendio",
-                "searchPlaceholder": "Buscar...",
                 "columnName": "Nombre",
                 "tooltipFilters": "Filtros",
                 "tooltipErase": "Borrar",
@@ -3258,7 +3524,8 @@
                     "loots": "Botines"
                 },
                 "missing": "<i>Falta</i>",
-                "browserSettings": "Configuración del explorador"
+                "browserSettings": "Configuración del explorador",
+                "windowTitle": "Navegador de compendio"
             },
             "Sidebar": {
                 "daggerheartMenu": {
@@ -3272,15 +3539,23 @@
                     "companion": "Nivel {level} - {partner}",
                     "companionNoPartner": "Sin compañero",
                     "duplicateToNewTier": "Duplicar con nuevo rango",
-                    "pickTierTitle": "Escoge un nuevo rango para este adversario"
+                    "pickTierTitle": "Escoge un nuevo rango para este adversario",
+                    "activateParty": "Marcar como grupo activo",
+                    "partyIsActive": "Activo",
+                    "createAdversary": "Crear adversario"
                 }
             },
             "EffectsDisplay": {
                 "removeThing": "[Click derecho] Eliminar {thing}",
-                "appliedBy": "Aplicado por: {by}"
+                "appliedBy": "Aplicado por: {by}",
+                "increaseStacks": "[Click izquierdo] Incrementar acumulaciones",
+                "decreaseStacks": "[Click derecho] Reducir acumulaciones"
             },
             "ConsoleLogs": {
                 "triggerRun": "DH TRIGGER | El objeto '{item}' del actor '{actor}' ejecutó un activador '{trigger}'."
+            },
+            "Progress": {
+                "migrationLabel": "Realizando la migración del sistema. Por favor, espera y no cierres Foundry."
             }
         },
         "CharacterSheet": "Hoja de personaje",
@@ -3291,6 +3566,13 @@
                 }
             },
             "formula": "Fórmula"
+        },
+        "MACROS": {
+            "Spotlight": {
+                "errors": {
+                    "noTokenSelected": "Debes seleccionar o señalar un token en el lienzo para poder enfocarlo"
+                }
+            }
         }
     },
     "SCENE": {

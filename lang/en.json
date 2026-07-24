@@ -14,13 +14,16 @@
             "beastform": "Beastform"
         },
         "ActiveEffect": {
-            "beastform": "Beastform"
+            "base": "Standard",
+            "beastform": "Beastform",
+            "horde": "Horde"
         },
         "Actor": {
             "character": "Character",
             "companion": "Companion",
             "adversary": "Adversary",
             "environment": "Environment",
+            "npc": "NPC",
             "party": "Party"
         }
     },
@@ -53,6 +56,7 @@
                 },
                 "damage": {
                     "name": "Damage",
+                    "critical": "Damage (Critical)",
                     "tooltip": "Direct damage without a roll."
                 },
                 "effect": {
@@ -71,9 +75,7 @@
                     "name": "Summon",
                     "tooltip": "Create tokens in the scene.",
                     "error": "You do not have permission to summon tokens or there is no active scene.",
-                    "invalidDrop": "You can only drop Actor entities to summon.",
-                    "chatMessageTitle": "Test2",
-                    "chatMessageHeaderTitle": "Summoning"
+                    "invalidDrop": "You can only drop Actor entities to summon."
                 },
                 "transform": {
                     "name": "Transform",
@@ -82,30 +84,56 @@
                     "transformActorMissing": "The assigned actor to transform into does not exist. It was probably deleted or moved in/out of a compendium",
                     "canvasError": "There is no active scene.",
                     "prototypeError": "You can only use a transform action from a Token",
+                    "linkedSelectedError": "To transform a linked actor there either needs to be only a single token of it on the canvas, or you need to left-click select only one of them.",
                     "actorLinkError": "You cannot transform a token with Actor Link set to true"
                 }
             },
             "Config": {
                 "beastform": {
-                    "exact": "Beastform Max Tier",
-                    "exactHint": "The Character's Tier is used if empty",
-                    "label": "Beastform"
+                    "exact": { "label": "Beastform Max Tier", "hint": "The Character's Tier is used if empty" },
+                    "modifications": {
+                        "traitBonuses": {
+                            "label": { "single": "Trait Bonus", "plural": "Trait Bonuses" },
+                            "hint": "Pick bonuses you apply to freely chosen traits at the time of transforming",
+                            "bonus": "Bonus Amount"
+                        }
+                    }
                 },
                 "countdown": {
                     "defaultOwnership": "Default Ownership",
                     "startCountdown": "Start Countdown"
                 },
                 "damage": {
+                    "addResource": "Add Resource",
                     "multiplier": "Multiplier",
-                    "flatMultiplier": "Flat Multiplier"
+                    "flatMultiplier": "Flat Multiplier",
+                    "markResources": "Mark Resources"
                 },
                 "general": {
                     "customFormula": "Custom Formula",
                     "formula": "Formula"
                 },
+                "area": {
+                    "sectionTitle": "Areas",
+                    "shape": "Shape",
+                    "size": "Size",
+                    "hasHole": "Area Hole"
+                },
                 "displayInChat": "Display in chat",
                 "deleteTriggerTitle": "Delete Trigger",
-                "deleteTriggerContent": "Are you sure you want to delete the {trigger} trigger?"
+                "deleteTriggerContent": "Are you sure you want to delete the {trigger} trigger?",
+                "advantageState": "Advantage State",
+                "damageOnSave": "Damage on Save",
+                "useDefaultItemValues": "Use default Item values"
+            },
+            "Reload": {
+                "checkReload": "Check Reload",
+                "reloadRequired": "Reload Required!",
+                "notRolled": "Not Rolled",
+                "checkFailed": "Check Failed",
+                "checkPassed": "Check Passed",
+                "rerollConfirmationTitle": "Reroll Reload Check",
+                "rerollConfirmationText": "Are you sure you want to reroll the reload check?"
             },
             "RollField": {
                 "diceRolling": {
@@ -117,10 +145,11 @@
                 }
             },
             "Settings": {
-                "attackBonus": "Attack Bonus",
+                "attackModifier": "Attack Modifier",
                 "attackName": "Attack Name",
                 "criticalThreshold": "Critical Threshold",
                 "includeBase": { "label": "Include Item Damage" },
+                "groupAttack": { "label": "Group Attack" },
                 "multiplier": "Multiplier",
                 "saveHint": "Set a default Trait to enable Reaction Roll. It can be changed later in Reaction Roll Dialog.",
                 "resultBased": {
@@ -149,9 +178,9 @@
         },
         "ACTIVEEFFECT": {
             "Config": {
-                "rangeDependence": {
-                    "title": "Range Dependence"
-                }
+                "rangeDependence": { "title": "Range Dependence" },
+                "stacking": { "title": "Stacking" },
+                "targetDispositions": "Affected Dispositions"
             },
             "RangeDependance": {
                 "hint": "Settings for an optional distance at which this effect should activate",
@@ -198,7 +227,13 @@
                     "type": { "label": "Type" }
                 },
                 "hordeDamage": "Horde Damage",
-                "horderHp": "Horde/HP"
+                "horderHp": "Horde/HP",
+                "adversaryReactionRoll": {
+                    "headerTitle": "Adversary Reaction Roll"
+                }
+            },
+            "Base": {
+                "CannotAddType": "Cannot add {itemType} items to {actorType} actors."
             },
             "Character": {
                 "advantageSources": {
@@ -223,6 +258,8 @@
                 },
                 "defaultHopeDice": "Default Hope Dice",
                 "defaultFearDice": "Default Fear Dice",
+                "defaultAdvantageDice": "Default Advantage Dice",
+                "defaultDisadvantageDice": "Default Disadvantage Dice",
                 "disadvantageSources": {
                     "label": "Disadvantage Sources",
                     "hint": "Add single words or short text as reminders and hints of what a character has disadvantage on."
@@ -307,6 +344,27 @@
                     }
                 },
                 "newAdversary": "New Adversary"
+            },
+            "NPC": {
+                "FIELDS": {
+                    "motives": { "label": "Motives" }
+                }
+            },
+            "Party": {
+                "Subtitle": {
+                    "character": "{community} {ancestry} | {subclass} {class}",
+                    "companion": "Companion of {partner}"
+                },
+                "RemoveConfirmation": {
+                    "title": "Remove member {name}",
+                    "text": "Are you sure you want to remove {name} from the party?"
+                },
+                "Thresholds": {
+                    "minor": "MIN",
+                    "major": "MAJ",
+                    "severe": "SEV"
+                },
+                "triggerRestContent": "This will trigger a dialog to players make their downtime moves. Are you sure?"
             }
         },
         "APPLICATIONS": {
@@ -342,7 +400,7 @@
                 "selectSecondaryWeapon": "Select Secondary Weapon",
                 "selectSubclass": "Select Subclass",
                 "setupSkipTitle": "Skipping Character Setup",
-                "setupSkipContent": "You are skipping the Character Setup by adding this manually. The character setup is the blinking arrows in the top-right. Are you sure you want to continue?",
+                "setupSkipContent": "You are skipping the Character Setup by adding this manually. The character setup is the blinking button in the top-right. Are you sure you want to continue?",
                 "startingItems": "Starting Items",
                 "story": "Story",
                 "storyExplanation": "Select which background and connection prompts you want to copy into your character's background.",
@@ -365,7 +423,11 @@
                 "giveSpotlight": "Give The Spotlight",
                 "requestingSpotlight": "Requesting The Spotlight",
                 "requestSpotlight": "Request The Spotlight",
-                "openCountdowns": "Countdowns"
+                "openCountdowns": "Countdowns",
+                "adversaryCategories": {
+                    "friendly": "Friendly",
+                    "adversaries": "Adversaries"
+                }
             },
             "CompendiumBrowserSettings": {
                 "title": "Enable Compendiums",
@@ -433,23 +495,27 @@
                 "startFormula": "Randomized Start Value Formula",
                 "currentCountdownCurrent": "Current: {value}",
                 "currentCountdownStart": "Start: {value}",
-                "category": "Category",
                 "progressionType": "Progression",
                 "decreasing": "Decreasing",
                 "looping": "Looping",
                 "defaultOwnershipTooltip": "The default player ownership of countdowns",
                 "hideNewCountdowns": "Hide New Countdowns"
             },
+            "CreateItemDialog": {
+                "createItem": "Create Item",
+                "browseCompendium": "Browse Compendium"
+            },
             "DaggerheartMenu": {
                 "title": "GM Tools",
-                "refreshFeatures": "Refresh Features"
+                "refreshFeatures": "Refresh Features",
+                "fallingAndCollision": "Falling And Collision Damage"
             },
             "DeleteConfirmation": {
                 "title": "Delete {type} - {name}",
                 "text": "Are you sure you want to delete {name}?"
             },
             "DamageReduction": {
-                "armorMarks": "Armor Marks",
+                "maxUseableArmor": "Useable Armor Slots",
                 "armorWithStress": "Spend 1 stress to use an extra mark",
                 "thresholdImmunities": "Threshold Immunities",
                 "stress": "Stress",
@@ -653,14 +719,14 @@
                 "noPlayers": "No players to assign ownership to",
                 "default": "Default Ownership"
             },
+            "PendingReactionsDialog": {
+                "title": "Pending Reaction Rolls Found",
+                "unfinishedRolls": "Some Tokens have not finished their Reaction Rolls.",
+                "warning": "Unfinished reaction rolls will be considered as failed.",
+                "confirmation": "Are you sure you want to continue?"
+            },
             "ReactionRoll": {
                 "title": "Reaction Roll: {trait}"
-            },
-            "RerollDialog": {
-                "title": "Reroll",
-                "damageTitle": "Reroll Damage",
-                "deselectDiceNotification": "Deselect one of the selected dice first",
-                "acceptCurrentRolls": "Accept Current Rolls"
             },
             "ResourceDice": {
                 "title": "{name} Resource",
@@ -675,19 +741,56 @@
             },
             "TagTeamSelect": {
                 "title": "Tag Team Roll",
+                "FIELDS": {
+                    "initiator": {
+                        "memberId": { "label": "Initiating Character" },
+                        "cost": { "label": "Hope Cost" }
+                    }
+                },
                 "leaderTitle": "Initiating Character",
                 "membersTitle": "Participants",
                 "partyTeam": "Party Team",
                 "hopeCost": "Hope Cost",
                 "initiatingCharacter": "Initiating Character",
+                "selectParticipants": "Select the two participants",
+                "startTagTeamRoll": "Start Tag Team Roll",
+                "openDialogForAll": "Open Dialog For All",
+                "rollType": "Roll Type",
+                "makeYourRoll": "Make your roll",
+                "cancelTagTeamRoll": "Cancel Tag Team Roll",
+                "finishTagTeamRoll": "Finish Tag Team Roll",
                 "linkMessageHint": "Make a roll from your character sheet to link it to the Tag Team Roll",
                 "damageNotRolled": "Damage not rolled in chat message yet",
                 "insufficientHope": "The initiating character doesn't have enough hope",
-                "createTagTeam": "Create TagTeam Roll",
-                "chatMessageRollTitle": "Roll"
+                "createTagTeam": "Create Tag Team Roll",
+                "chatMessageRollTitle": "Roll",
+                "cancelConfirmTitle": "Cancel Tag Team Roll",
+                "cancelConfirmText": "Are you sure you want to cancel the Tag Team Roll? This will close it for all other players too.",
+                "hints": {
+                    "completeRolls": "Set up and complete the rolls for the characters",
+                    "selectRoll": "Select which roll value to be used for the Tag Team"
+                }
+            },
+            "GroupRollSelect": {
+                "cancelConfirmText": "Are you sure you want to cancel the Group Roll? This will close it for all other players too.",
+                "cancelConfirmTitle": "Cancel Group Roll",
+                "initializationTitle": "Character Selection",
+                "finishGroupRoll": "Finish Group Roll",
+                "leader": "Leader",
+                "leaderRoll": "Leader Roll",
+                "members": "Members",
+                "openDialogForAll": "Open Dialog For All",
+                "removeRoll": "Remove Roll",
+                "resultsHint": "Results will appear when characters roll",
+                "selectLeaderHint": "Select one Character to be the leader",
+                "selectParticipantsHint": "Select all Characters who will participate in the roll",
+                "startGroupRoll": "Start Group Roll",
+                "title": "Group Roll"
             },
             "TokenConfig": {
-                "actorSizeUsed": "Actor size is set, determining the dimensions"
+                "actorSizeUsed": "Actor size is set, determining the dimensions",
+                "tokenSize": "Token Size",
+                "sizeCategory": "Size Category"
             }
         },
         "CLASS": {
@@ -697,6 +800,20 @@
             }
         },
         "CONFIG": {
+            "ActiveEffectDuration": {
+                "temporary": "Temporary",
+                "act": "Next Spotlight",
+                "scene": "Next Scene",
+                "shortRest": "Next Rest",
+                "longRest": "Next Long Rest",
+                "session": "Next Session",
+                "custom": "Custom"
+            },
+            "ActionAutomationChoices": {
+                "never": "Never",
+                "showDialog": "Show Dialog Only",
+                "always": "Always"
+            },
             "AdversaryTrait": {
                 "relentless": {
                     "name": "Relentless",
@@ -763,6 +880,15 @@
                 "leader": "for each Leader adversary.",
                 "bruiser": "for each Bruiser adversary.",
                 "solo": "for each Solo adversary."
+            },
+            "AreaTypes": {
+                "attached": { "label": "Attached To Token" },
+                "placed": { "label": "Placed In Scene" }
+            },
+            "ArmorInteraction": {
+                "none": { "label": "Ignores Armor" },
+                "active": { "label": "Active w/ Armor" },
+                "inactive": { "label": "Inactive w/ Armor" }
             },
             "ArmorFeature": {
                 "burning": {
@@ -1050,13 +1176,17 @@
                     "autoAppliedByLabel": "Max Stress"
                 }
             },
-            "CountdownType": {
+            "CountdownProgressType": {
                 "actionRoll": "Action Roll",
                 "characterAttack": "Character Attack",
                 "characterSpotlight": "Character Spotlight",
                 "custom": "Custom",
                 "fear": "Fear",
                 "spotlight": "Spotlight"
+            },
+            "CountdownType": {
+                "encounter": { "label": "Short Term", "shortLabel": "Short" },
+                "narrative": { "label": "Long Term", "shortLabel": "Long" }
             },
             "DaggerheartDiceAnimationEvents": {
                 "critical": { "name": "Critical" },
@@ -1113,6 +1243,12 @@
                     "label": "Event",
                     "description": ""
                 }
+            },
+            "fallAndCollision": {
+                "veryClose": { "label": "Very Close", "chatTitle": "Fall Damage: Very Close" },
+                "close": { "label": "Close", "chatTitle": "Fall Damage: Close" },
+                "far": { "label": "Far", "chatTitle": "Fall Damage: Far" },
+                "collision": { "label": "Collision", "chatTitle": "Dangerous Collision" }
             },
             "FeatureForm": {
                 "label": "Feature Form",
@@ -1195,6 +1331,11 @@
                     "short": "V. Far"
                 }
             },
+            "ReloadChoices": {
+                "off": { "label": "Don't Use" },
+                "manual": { "label": "Manual" },
+                "auto": { "label": "Automatic" }
+            },
             "RollTypes": {
                 "trait": {
                     "name": "Trait"
@@ -1215,9 +1356,19 @@
                 "on": "On",
                 "onWithToggle": "On With Toggle"
             },
+            "SceneRangeMeasurementTypes": {
+                "disable": "Disable Daggerheart Range Measurement",
+                "default": "Default",
+                "custom": "Custom"
+            },
             "SelectAction": {
                 "selectType": "Select Action Type",
                 "selectAction": "Action Selection"
+            },
+            "TagTeamRollTypes": {
+                "trait": "Trait",
+                "ability": "Ability",
+                "damageAbility": "Damage Ability"
             },
             "TargetTypes": {
                 "any": "Any",
@@ -1231,8 +1382,8 @@
                 "cone": "Cone",
                 "emanation": "Emanation",
                 "inFront": "In Front",
-                "rect": "Rectangle",
-                "ray": "Ray"
+                "rectangle": "Rectangle",
+                "line": "Line"
             },
             "TokenSize": {
                 "tiny": "Tiny",
@@ -1320,7 +1471,7 @@
                 },
                 "triggerType": "Trigger Type",
                 "triggeringActorType": "Triggering Actor Type",
-                "triggerError": "{trigger} trigger failed for {actor}. It's probably configured wrong."
+                "triggerError": "{trigger} trigger on {item}({itemUuid}) failed for {actor}. It's probably configured wrong."
             },
             "WeaponFeature": {
                 "barrier": {
@@ -1847,6 +1998,17 @@
                     "name": "Healing Roll"
                 }
             },
+            "ChangeTypes": {
+                "armor": {
+                    "newArmorEffect": "Armor Effect",
+                    "FIELDS": {
+                        "interaction": {
+                            "label": "Armor Interaction",
+                            "hint": "Does the character wearing armor suppress this effect?"
+                        }
+                    }
+                }
+            },
             "Duration": {
                 "passive": "Passive",
                 "temporary": "Temporary"
@@ -1868,9 +2030,14 @@
             "Attachments": {
                 "attachHint": "Drop items here to attach them",
                 "transferHint": "If checked, this effect will be applied to any actor that owns this Effect's parent Item. The effect is always applied if this Item is attached to another one."
-            }
+            },
+            "OriginTag": "Origin: {name}"
         },
         "GENERAL": {
+            "Ability": {
+                "single": "Ability",
+                "plural": "Abilities"
+            },
             "Action": {
                 "single": "Action",
                 "plural": "Actions"
@@ -1893,6 +2060,10 @@
                     "label": "HP Damage Taken Multiplier",
                     "hint": "Multiply any damage dealt to you by this number"
                 }
+            },
+            "Battlepoints": {
+                "full": "Battlepoints",
+                "short": "BP"
             },
             "Bonuses": {
                 "rest": {
@@ -2064,7 +2235,9 @@
             },
             "Resource": {
                 "single": "Resource",
-                "plural": "Resources"
+                "plural": "Resources",
+                "unloaded": "The weapon is not loaded",
+                "loaded": "The weapon is loaded"
             },
             "Roll": {
                 "attack": "Attack Roll",
@@ -2090,7 +2263,7 @@
                         "hint": "A used armor slot normally reduces damage by one step. This value increases the number of steps damage is reduced by."
                     },
                     "magical": {
-                        "label": "Daamge Reduction: Only Magical",
+                        "label": "Damage Reduction: Only Magical",
                         "hint": "Armor can only be used to reduce magical damage"
                     },
                     "maxArmorMarkedBonus": "Max Armor Used",
@@ -2252,6 +2425,7 @@
             "duality": "Duality",
             "dualityDice": "Duality Dice",
             "dualityRoll": "Duality Roll",
+            "effect": "Effect",
             "enabled": "Enabled",
             "evasion": "Evasion",
             "equipment": "Equipment",
@@ -2300,13 +2474,17 @@
                 "single": "Miss",
                 "plural": "Miss"
             },
+            "missingX": "Missing {x}",
             "maxWithThing": "Max {thing}",
             "missingDragDropThing": "Drop {thing} here",
             "multiclass": "Multiclass",
+            "name": "Name",
             "newCategory": "New Category",
             "newThing": "New {thing}",
+            "next": "Next",
             "none": "None",
             "noTarget": "No current target",
+            "optionalThing": "Optional {thing}",
             "partner": "Partner",
             "player": {
                 "single": "Player",
@@ -2323,15 +2501,20 @@
             "reroll": "Reroll",
             "rerolled": "Rerolled",
             "rerollThing": "Reroll {thing}",
-            "resource": "Resource",
+            "result": {
+                "single": "Result",
+                "plural": "Results"
+            },
             "roll": "Roll",
             "rollAll": "Roll All",
             "rollDamage": "Roll Damage",
             "rollWith": "{roll} Roll",
             "save": "Save",
+            "saveSettings": "Save Settings",
             "scalable": "Scalable",
             "scars": "Scars",
             "situationalBonus": "Situational Bonus",
+            "searchPlaceholder": "Search...",
             "spent": "Spent",
             "step": "Step",
             "stress": "Stress",
@@ -2381,6 +2564,12 @@
                     "recovery": { "label": "Recovery" },
                     "type": { "label": "Type" },
                     "value": { "label": "Value" }
+                },
+                "identifier": {
+                    "label": "Identifier"
+                },
+                "gmNotes": {
+                    "label": "GM Notes"
                 }
             },
             "Ancestry": {
@@ -2396,6 +2585,9 @@
                     "severe": "Severe Threshold"
                 }
             },
+            "Base": {
+                "addGMNote": "Add GM Note"
+            },
             "Beastform": {
                 "FIELDS": {
                     "beastformType": { "label": "Beastform Type" },
@@ -2406,10 +2598,11 @@
                     "tokenImg": { "label": "Token Image" },
                     "tokenRingImg": { "label": "Subject Texture" },
                     "tokenSize": {
-                        "placeholder": "Using character dimensions",
-                        "disabledPlaceholder": "Set by character size",
+                        "placeholder": "Token Size",
+                        "disabledPlaceholder": "Token Size",
                         "height": { "label": "Height" },
                         "width": { "label": "Width" },
+                        "depth": { "label": "Depth" },
                         "scale": { "label": "Token Scale" }
                     },
                     "evolved": {
@@ -2482,8 +2675,21 @@
             },
             "Weapon": {
                 "weaponType": "Weapon Type",
-                "primaryWeapon": "Primary Weapon",
-                "secondaryWeapon": "Secondary Weapon"
+                "primaryWeapon": {
+                    "full": "Primary Weapon",
+                    "short": "Primary"
+                },
+                "secondaryWeapon": {
+                    "full": "Secondary Weapon",
+                    "short": "Secondary"
+                }
+            }
+        },
+        "MACROS": {
+            "Spotlight": {
+                "errors": {
+                    "noTokenSelected": "A token on the canvas must either be selected or hovered to spotlight it"
+                }
             }
         },
         "ROLLTABLES": {
@@ -2497,6 +2703,9 @@
                 "FIELDS": {
                     "displayFear": {
                         "label": "Display Fear"
+                    },
+                    "fearPosition": {
+                        "label": "Fear Position"
                     },
                     "displayCountdownUI": {
                         "label": "Display Countdown UI"
@@ -2549,6 +2758,13 @@
                     "token": "Tokens",
                     "bar": "Bar",
                     "hide": "Hide"
+                },
+                "fearPosition": {
+                    "free": "Free",
+                    "topCenter": "Top + Center",
+                    "bottomCenter": "Bottom + Center",
+                    "rightTop": "Right + Top",
+                    "leftBottom": "Left + Bottom"
                 }
             },
             "Automation": {
@@ -2557,6 +2773,10 @@
                     "hint": "Automatically increase the GM's fear pool on a fear duality roll result."
                 },
                 "FIELDS": {
+                    "autoExpireActiveEffects": {
+                        "label": "Auto Expire Active Effects",
+                        "hint": "Active Effects with set durations will automatically be removed when their durations are up"
+                    },
                     "damageReductionRulesDefault": {
                         "label": "Damage Reduction Rules Default",
                         "hint": "Wether using armor and reductions has rules on by default"
@@ -2602,6 +2822,10 @@
                             "label": "Effect Range Dependent",
                             "hint": "Effects with defined range dependency will automatically turn on/off depending on range"
                         }
+                    },
+                    "reload": {
+                        "label": "Reload Checking",
+                        "hint": "If the system should automatically roll reload checks or wait for the manual press of a button in chat"
                     },
                     "resourceScrollTexts": {
                         "label": "Show Resource Change Scrolltexts",
@@ -2654,6 +2878,15 @@
                     "hideObserverPermissionInChat": {
                         "label": "Hide Chat Info From Players",
                         "hint": "Information such as hit/miss on attack rolls against adversaries will be hidden"
+                    },
+                    "hidePartyStats": {
+                        "label": "Hide Party Stats",
+                        "hint": "Resources and stats in the party sheet's member list will be hidden to the following users, even if the user is part of the same party",
+                        "choices": {
+                            "never": "Never, always show",
+                            "players": "Hide From Players",
+                            "always": "Hide from Everyone"
+                        }
                     }
                 }
             },
@@ -2699,7 +2932,9 @@
                     "iconName": "Icon Name",
                     "iconNameHint": "Icons are from fontawesome",
                     "bagName": "Bag Name",
-                    "chestName": "Chest Name"
+                    "chestName": "Chest Name",
+                    "denomination": "Denomination",
+                    "initialAmount": "Starting Amount"
                 },
                 "domains": {
                     "domainsTitle": "Base Domains",
@@ -2723,6 +2958,16 @@
                     "emptyIcon": "Empty Icon",
                     "resourceIdentifier": "Resource Identifier",
                     "setResourceIdentifier": "Set Resource Identifier"
+                }
+            },
+            "Keybindings": {
+                "partySheet": {
+                    "name": "Toggle Party Sheet",
+                    "hint": "Open or close the active party's sheet"
+                },
+                "spotlight": {
+                    "name": "Spotlight Combatant",
+                    "hint": "Move the spotlight to a hovered or selected token that's present in an active encounter"
                 }
             },
             "Menu": {
@@ -2764,6 +3009,7 @@
                         "system": "Dice Preset",
                         "font": "Font",
                         "critical": "Duality Critical Animation",
+                        "muted": "Muted",
                         "diceAppearance": "Dice Appearance",
                         "animations": "Animations",
                         "defaultAnimations": "Set Animations As Player Defaults",
@@ -2872,18 +3118,6 @@
                     "immunityTo": "Immunity: {immunities}"
                 },
                 "featureTitle": "Class Feature",
-                "groupRoll": {
-                    "title": "Group Roll",
-                    "leader": "Leader",
-                    "partyTeam": "Party Team",
-                    "team": "Team",
-                    "selectLeader": "Select a Leader",
-                    "selectMember": "Select a Member",
-                    "rerollTitle": "Reroll Group Roll",
-                    "rerollContent": "Are you sure you want to reroll your {trait} roll?",
-                    "rerollTooltip": "Reroll",
-                    "wholePartySelected": "The whole party is selected"
-                },
                 "healingRoll": {
                     "title": "Heal - {damage}",
                     "heal": "Heal",
@@ -2901,12 +3135,16 @@
                 "resourceRoll": {
                     "playerMessage": "{user} rerolled their {name}"
                 },
+                "saveRoll": {
+                    "reactionRollAllTargets": "Reaction Roll All Targets"
+                },
                 "tagTeam": {
                     "title": "Tag Team",
                     "membersTitle": "Members"
                 }
             },
             "ChatLog": {
+                "rerollActionRoll": "Reroll Action",
                 "rerollDamage": "Reroll Damage",
                 "assignTagRoll": "Assign as Tag Roll"
             },
@@ -2923,13 +3161,15 @@
             },
             "EffectsDisplay": {
                 "removeThing": "[Right Click] Remove {thing}",
+                "increaseStacks": "[Left Click] Increment Stacks",
+                "decreaseStacks": "[Right Click] Decrement Stacks",
                 "appliedBy": "Applied By: {by}"
             },
             "ItemBrowser": {
                 "title": "Daggerheart Compendium Browser",
+                "windowTitle": "Compendium Browser",
                 "hint": "Select a Folder in sidebar to start browsing through the compendium",
                 "browserSettings": "Browser Settings",
-                "searchPlaceholder": "Search...",
                 "columnName": "Name",
                 "tooltipFilters": "Filters",
                 "tooltipErase": "Erase",
@@ -2965,7 +3205,7 @@
                     "weapons": "Weapons",
                     "armors": "Armors",
                     "consumables": "Consumables",
-                    "loots": "Loots"
+                    "loots": "Loot"
                 }
             },
             "Notifications": {
@@ -3030,7 +3270,7 @@
                 "beastformToManyAdvantages": "You cannot select any more advantages.",
                 "beastformToManyFeatures": "You cannot select any more features.",
                 "beastformEquipWeapon": "You cannot use weapons while in a Beastform.",
-                "loadoutMaxReached": "You've reached maximum loadout. Move atleast one domain card to the vault, or increase the limit in homebrew settings if desired.",
+                "loadoutMaxReached": "You've reached the maximum loadout size. To add more, move at least one domain card to the vault.",
                 "domainMaxReached": "You've reached the maximum domains for the class. Increase the limit in homebrew settings if desired.",
                 "insufficientResources": "You don't have enough resources to use that action.",
                 "actionNoUsesRemaining": "That action doesn't have remaining uses.",
@@ -3038,7 +3278,6 @@
                 "subclassesAlreadyPresent": "You already have a class and multiclass subclass",
                 "noDiceSystem": "Your selected dice {system} does not have a {faces} dice",
                 "gmMenuRefresh": "You refreshed all actions and resources {types}",
-                "subclassAlreadyLinked": "{name} is already a subclass in the class {class}. Remove it from there if you want it to be a subclass to this class.",
                 "gmRequired": "This action requires an online GM",
                 "gmOnly": "This can only be accessed by the GM",
                 "noActorOwnership": "You do not have permissions for this character",
@@ -3047,7 +3286,14 @@
                 "tokenActorsMissing": "[{names}] missing Actors",
                 "domainTouchRequirement": "This domain card requires {nr} {domain} cards in the loadout to be used",
                 "knowTheTide": "Know The Tide gained a token",
-                "lackingItemTransferPermission": "User {user} lacks owner permission needed to transfer items to {target}"
+                "lackingItemTransferPermission": "User {user} lacks owner permission needed to transfer items to {target}",
+                "noTokenTargeted": "No token is targeted",
+                "behaviorRegionRequiresGM": "Creating a Region with an attached Behavior requires an online GM",
+                "comboDiceOnlyTwoDiceError": "Combo dice functionality only works on a single pair of two dice",
+                "reloadRequired": "The {weapon} must be reloaded to be used!"
+            },
+            "Progress": {
+                "migrationLabel": "Performing system migration. Please wait and do not close Foundry."
             },
             "Sidebar": {
                 "actorDirectory": {
@@ -3056,6 +3302,9 @@
                     "companion": "Level {level} - {partner}",
                     "companionNoPartner": "No Partner",
                     "duplicateToNewTier": "Duplicate to New Tier",
+                    "activateParty": "Make Active Party",
+                    "partyIsActive": "Active",
+                    "createAdversary": "Create Adversary",
                     "pickTierTitle": "Pick a new tier for this adversary"
                 },
                 "daggerheartMenu": {
@@ -3067,6 +3316,7 @@
             "Tooltip": {
                 "disableEffect": "Disable Effect",
                 "enableEffect": "Enable Effect",
+                "edit": "Edit",
                 "openItemWorld": "Open Item World",
                 "openActorWorld": "Open Actor World",
                 "sendToChat": "Send to Chat",
@@ -3081,7 +3331,6 @@
                 "rangeAndTarget": "Range & Target",
                 "dragApplyEffect": "Drag effect to apply it to an actor",
                 "appliedEvenIfSuccessful": "Applied even if save succeeded",
-                "diceIsRerolled": "The dice has been rerolled (x{times})",
                 "pendingSaves": "Pending Reaction Rolls",
                 "openSheetSettings": "Open Settings",
                 "compendiumBrowser": "Compendium Browser",
